@@ -1,11 +1,11 @@
 package com.shirtec.playground;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
+@ToString
 public class Customer {
 
     @Id
@@ -13,19 +13,22 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
+    @Enumerated(value = EnumType.STRING)
+    private GenderCode gender;
+    private Integer income;
+    private Currency currency;
 
     protected Customer() {}
 
     public Customer(String firstName, String lastName) {
+        this(firstName, lastName, GenderCode.M, 0, Currency.US_DOLLAR);
+    }
+
+    public Customer(String firstName, String lastName, GenderCode gender, Integer income, Currency currency) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.income = income;
+        this.currency = currency;
+        this.gender = gender;
     }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
-    }
-
 }
